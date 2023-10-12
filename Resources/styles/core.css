@@ -1,0 +1,122 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    background: url(images/Background.png) no-repeat;
+    background-size: cover;
+    background-position: center center;
+    flex: 1;
+    /* Allow the body to take the remaining space */
+}
+
+body header img {
+    width: 50%;
+    /* Make the image width 100% to fit its container */
+    height: auto;
+    /* Automatically adjust the height to maintain the aspect ratio */
+    display: block;
+    /* Remove extra spacing around the image */
+    margin: 0 auto;
+    /* Center the image horizontally */
+    padding-top: 1%;
+}
+
+body main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    overflow-y: auto;
+    padding: 0.1%;
+    margin-top: 0.5%;
+    flex: 1;
+    /* Allow the main content to take the remaining space */
+}
+
+body main #buttons,
+body main #contents,
+body main #preview {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 96.5%;
+    margin: 0.2%;
+    background: url(images/Box.png) no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+    padding: 0.5%;
+    border-radius: 5px;
+}
+
+body main #buttons {
+    flex: 0 0 8%;
+}
+
+body main #contents {
+    font-family: sans-serif;
+    flex: 1;
+    /* Allow content to grow and take available space */
+}
+
+body main #preview {
+    flex: 0 0 15%;
+}
+
+body footer {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 0.2%;
+    background: url(images/Box.png) no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+    border-radius: 5px;
+}
+
+/* End of Body Elements */
+
+/* Styles for Buttons */
+button {
+    margin: 0.5%;
+    background: url(images/Button.png) no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+    border-radius: 2px;
+    border: none;
+    font-family: cursive;
+    transition: 0.1s ease-in-out;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+}
+
+input[type="number"] {
+    border: none;
+    outline: none;
+    border-radius: 1px;
+    background-color: rgba(200, 200, 200, 0.5);
+    transition: 0.1s ease-in-out;
+}
+
+input[type="number"]:hover {
+    background-color: rgba(100, 100, 100, 0.5);
+}
+
+input[type="number"]:focus {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+button[class="showValue"] {
+    border-radius: 100%;
+}

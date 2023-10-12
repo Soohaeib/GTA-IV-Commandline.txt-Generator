@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8" content-type="text/html">
+    <title>Commandline Generator</title>
+
+    <link rel="stylesheet" href="Resources/styles/core.css">
+    <link rel="stylesheet" href="Resources/styles/intro.css">
+
+    <link rel="icon" type="image/x-icon" href="Resources/styles/images/logo.png">
+</head>
+
+<div id="intro">
+    <img src="Resources/styles/images/Logo.png" alt="Logo">
+    <img src="Resources/styles/images/Welcome.png" alt="Welcome">
+    <button id="introButton">Click To Continue</button>
+    <script>
+        // Add an event listener to hide the overlay when the button is clicked
+        document.getElementById('introButton').addEventListener('click', function () {
+            document.getElementById('intro').style.display = 'none'; // Hide the "intro" div
+        });
+    </script>
+</div>
+
+<body>
+    <header id="title">
+        <img src="Resources/styles/images/Title.png" alt="Title">
+    </header>
+    <main id="main">
+        <section id="buttons">
+            <button content-section="general">General</button>
+            <button content-section="global">Global</button>
+            <button content-section="audio">Audio</button>
+            <button content-section="graphics">Graphics</button>
+            <button content-section="input">Input</button>
+            <button content-section="memory">Memory</button>
+            <button content-section="quality">Quality</button>
+            <button content-section="time">Time</button>
+            <button content-section="grcore">Grcore</button>
+        </section>
+
+        <section id="contents">
+            <section id="general" class="main">
+                <div id="benchmark">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-benchmark" group="general">
+                        Run the in-game benchmark immediately
+                    </label>
+                </div>
+                <div id="safemode">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-safemode" group="general">
+                        Set graphics settings to the lowest
+                    </label>
+                </div>
+                <div id="help">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-help" group="general">
+                        Show 'commandline.txt' help immediately
+                    </label>
+                </div>
+            </section>
+
+            <section id="global" class="main">
+                <div id="FrameQueueLimit">
+                    <label>
+                        <input type="checkbox" class="cs" group="global">
+                        Limit the maximum number of frames that can be queued
+                        <input type="range" s-cmd="-FrameQueueLimit" min="0" max="4" value="2" hidden>
+                        <button class="showValue"></button>
+                    </label>
+                </div>
+                <div id="adapter">
+                    <label>
+                        <input type="checkbox" class="cn" group="global">
+                        Use the specified screen adapter
+                        <input type="number" v-cmd="-adapter" min="0" pattern="^\d+$" hidden>
+                    </label>
+                </div>
+                <div id="disableimposters">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-disableimposters" group="global">
+                        Disable imposter rendering for vehicles
+                    </label>
+                </div>
+                <div id="noBlockOnLostFocus">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-noBlockOnLostFocus" group="global">
+                        Allow window updates when it loses focus
+                    </label>
+                </div>
+            </section>
+
+            <section id="audio" class="main">
+                <div id="audio-quality">
+                    <label>
+                        <input type="checkbox" class="cr" name="audio-quality" group="audio">
+                        Force CPU audio footprint to
+                        <fieldset disabled>
+                            <input type="radio" name="audio-quality" r-cmd="-fullspecaudio"> High-end
+                            <input type="radio" name="audio-quality" r-cmd="-minspecaudio"> Low-end
+                        </fieldset>
+                    </label>
+                </div>
+            </section>
+
+            <section id="graphics" class="main">
+                <div id="frameLimit">
+                    <label>
+                        <input type="checkbox" class="cn" group="graphics">
+                        Limit the number of frames
+                        <input type="number" v-cmd="-frameLimit" min="0" hidden>
+                    </label>
+                </div>
+                <div id="gpucount">
+                    <label>
+                        <input type="checkbox" class="cn" group="graphics">
+                        Manually set the GPU count (if query fails)
+                        <input type="number" v-cmd="-gpucount" min="0" hidden>
+                    </label>
+                </div>
+                <div id="width">
+                    <label>
+                        <input type="checkbox" class="cn" group="graphics">
+                        Set the screen width
+                        <input type="number" v-cmd="-width" min="0" hidden>
+                    </label>
+                </div>
+                <div id="height">
+                    <label>
+                        <input type="checkbox" class="cn" group="graphics">
+                        Set the screen height
+                        <input type="number" v-cmd="-height" min="0" hidden>
+                    </label>
+                </div>
+                <div id="refreshrate">
+                    <label>
+                        <input type="checkbox" class="cn" group="graphics">
+                        Set the screen refresh rate
+                        <input type="number" v-cmd="-refreshrate" min="0" hidden>
+                    </label>
+                </div>
+                <div id="screen-mode">
+                    <label>
+                        <input type="checkbox" class="cr" name="screen-mode" group="graphics">
+                        Select screen mode
+                        <fieldset disabled>
+                            <input type="radio" name="screen-mode" r-cmd="-fullscreen"> Fullscreen
+                            <input type="radio" name="screen-mode" r-cmd="-windowed"> Windowed
+                        </fieldset>
+                    </label>
+                </div>
+                <div id="managed-resources">
+                    <label>
+                        <input type="checkbox" class="cr" name="managed-resources" group="graphics">
+                        Select managed resources of
+                        <fieldset disabled>
+                            <input type="radio" name="managed-resources" r-cmd="-managed"> D3D runtime managed
+                            <input type="radio" name="managed-resources" r-cmd="-unmanaged"> Application managed
+                        </fieldset>
+                    </label>
+                </div>
+                <div id="forcehighqualitymirrors">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-forcehighqualitymirrors" group="graphics">
+                        Enable 64-bit mirrors
+                    </label>
+                </div>
+                <div id="forcer2vb">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-forcer2vb" group="graphics">
+                        Force r2vb
+                    </label>
+                </div>
+                <div id="framelockinwindow">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-framelockinwindow" group="graphics">
+                        Force framelock to work even in a window
+                    </label>
+                </div>
+                <div id="nominimize">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-nominimize" group="graphics">
+                        Disable restoring the game from minimize and changing resolutions
+                    </label>
+                </div>
+                <div id="norestrictions">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-norestrictions" group="graphics">
+                        Do not limit graphics settings
+                    </label>
+                </div>
+                <div id="noswapdelay">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-noswapdelay" group="graphics">
+                        Disable sleep delay
+                    </label>
+                </div>
+                <div id="novblank">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-novblank" group="graphics">
+                        Disable wait for vblank
+                    </label>
+                </div>
+                <div id="stereo">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-stereo" group="graphics">
+                        Support stereo rendering mode
+                    </label>
+                </div>
+            </section>
+
+            <section id="input" class="main">
+                <div id="usedirectinput">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-usedirectinput" group="input">
+                        Allow DirectInput alongside XInput support
+                    </label>
+                </div>
+            </section>
+
+            <section id="memory" class="main">
+                <div id="nomemrestrict">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-nomemrestrict" group="memory">
+                        Remove memory limit
+                    </label>
+                </div>
+                <div id="memrestrict">
+                    <label>
+                        <input type="checkbox" class="cn" group="memory">
+                        Set the Memory Limit
+                        <input type="number" v-cmd="-memrestrict" min="0" hidden>
+                    </label>
+                </div>
+                <div id="availablevidmem">
+                    <label>
+                        <input type="checkbox" class="cn" group="memory">
+                        Set available video memory
+                        <input type="number" v-cmd="-availablevidmem" hidden>
+                    </label>
+                </div>
+                <div id="extravidmem">
+                    <label>
+                        <input type="checkbox" class="cn" group="memory">
+                        Set extra video memory
+                        <input type="number" v-cmd="-extravidmem" hidden>
+                    </label>
+                </div>
+                <div id="reserve">
+                    <label>
+                        <input type="checkbox" class="cn" group="memory">
+                        Set the amount of system memory for the game
+                        <input type="number" v-cmd="-reserve" hidden>
+                    </label>
+                </div>
+                <div id="reservedApp">
+                    <label>
+                        <input type="checkbox" class="cn" group="memory">
+                        Set the amount of system memory for the game's launcher
+                        <input type="number" v-cmd="-reservedApp" hidden>
+                    </label>
+                </div>
+                <div id="lazydelete">
+                    <label>
+                        <input type="checkbox" class="cs" group="memory">
+                        Take your time deleting stuff
+                        <input type="range" s-cmd="-lazydelete" min="0" max="1" hidden>
+                        <button class="showValue"></button>
+                    </label>
+                </div>
+                <div id="no_3GB">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-no_3GB" group="memory">
+                        Disable 32-bit OS with /3GB
+                    </label>
+                </div>
+                <div id="nocache">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-nocache" group="memory">
+                        Do not cache resources
+                    </label>
+                </div>
+                <div id="noprecache">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-noprecache" group="memory">
+                        Do not precache resources
+                    </label>
+                </div>
+            </section>
+
+            <section id="quality" class="main">
+                <div id="autoconfig">
+                    <label>
+                        <input type="checkbox" class="cs" group="quality">
+                        Set frame rate through auto configuration
+                        <input type="range" s-cmd="-autoconfig" min="15" max="120" hidden>
+                        <button class="showValue"></button>
+                    </label>
+                </div>
+                <div id="texturequality">
+                    <label>
+                        <input type="checkbox" class="cs" group="quality">
+                        Set texture quality
+                        <input type="range" s-cmd="-texturequality" min="0" max="2" hidden>
+                        <button class="showValue"></button>
+                    </label>
+                </div>
+                <div id="shadowquality">
+                    <label>
+                        <input type="checkbox" class="cs" group="quality">
+                        Set shadow quality
+                        <input type="range" s-cmd="-shadowquality" min="0" max="4" hidden>
+                        <button class="showValue"></button>
+                    </label>
+                </div>
+                <div id="shadowdensity">
+                    <label>
+                        <input type="checkbox" class="cs" group="quality">
+                        Set the number of lights that cast shadows
+                        <input type="range" s-cmd="-shadowdensity" min="0" max="16" hidden>
+                        <button class="showValue"></button>
+                    </label>
+                </div>
+                <div id="renderquality">
+                    <label>
+                        <input type="checkbox" class="cs" group="quality">
+                        Set anisotropic filtering
+                        <input type="range" s-cmd="-renderquality" min="0" max="4" hidden>
+                        <button class="showValue"></button>
+                    </label>
+                </div>
+                <div id="detailquality">
+                    <label>
+                        <input type="checkbox" class="cs" group="quality">
+                        Set detail distance
+                        <input type="range" s-cmd="-detailquality" min="0" max="99" hidden>
+                        <button class="showValue"></button>
+                    </label>
+                </div>
+                <div id="viewdistance">
+                    <label>
+                        <input type="checkbox" class="cs" group="quality">
+                        Set LOD view distance
+                        <input type="range" s-cmd="-viewdistance" min="0" max="99" hidden>
+                        <button class="showValue"></button>
+                    </label>
+                </div>
+            </section>
+
+            <section id="time" class="main">
+                <div id="notimefix">
+                    <label>
+                        <input type="checkbox" class="cc" d-cmd="-notimefix" group="time">
+                        Disable Time Fix
+                    </label>
+                </div>
+            </section>
+
+            <section id="grcore" class="main">
+                <div id="thread">
+                    <label>
+                        <input type="checkbox" class="cr" name="thread" group="grcore">
+                        Allow D3D device initialization (PC Only)
+                        <fieldset disabled>
+                            <input type="radio" name="thread" r-cmd="-d3dmt"> Multithreaded mode
+                            <input type="radio" name="thread" r-cmd="-d3dst"> Single-threaded mode
+                        </fieldset>
+                    </label>
+                </div>
+            </section>
+        </section>
+
+        <section id="preview">
+            <div id="generalCache">[General]</div>
+            <br>
+            <div id="globalCache">[Global]</div>
+            <br>
+            <div id="audioCache">[Audio]</div>
+            <br>
+            <div id="graphicsCache">[Graphics]</div>
+            <br>
+            <div id="inputCache">[Input]</div>
+            <br>
+            <div id="memoryCache">[Memory]</div>
+            <br>
+            <div id="qualityCache">[Quality]</div>
+            <br>
+            <div id="timeCache">[Time]</div>
+            <br>
+            <div id="grcoreCache">[Grcore]</div>
+        </section>
+    </main>
+    <footer id="footer">
+        <button onclick="saveContent('preview')">Save</button>
+        <button data-action="reload">Reload</button>
+    </footer>
+    <section id="scripts">
+        <script src="Resources/logics/checkbox-display.js"></script>
+        <script src="Resources/logics/slider-flyout.js"></script>
+
+        <script src="Resources/logics/checkboxes/cc-class.js"></script>
+        <script src="Resources/logics/checkboxes/cn-class.js"></script>
+        <script src="Resources/logics/checkboxes/cr-class.js"></script>
+        <script src="Resources/logics/checkboxes/cs-class.js"></script>
+
+        <script src="Resources/logics/buttons/navigation.js"></script>
+        <script src="Resources/logics/buttons/download.js"></script>
+        <script src="Resources/logics/buttons/reload.js"></script>
+
+        <script src="Resources/libraries/FileSaver.js"></script>
+    </section>
+</body>
+
+</html>
